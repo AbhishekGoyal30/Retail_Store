@@ -1,0 +1,9 @@
+     A          R BATCHR
+     A            ITEMNO        15A
+     A            BATCHNO       10A
+     A            EXPIRYDATE     L
+     A            QTYONHAND      9P 0
+     A            WHCODE         5A
+
+     A          K ITEMNO
+     A          K BATCHNO

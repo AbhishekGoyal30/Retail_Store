@@ -1,0 +1,35 @@
+     A                                      DSPSIZ(66 132)
+     A                                      PAGESIZE(60)
+     A                                      PRINT
+
+     A          R HEADER
+     A                                      SKIPB(1)
+     A                                  2 20'Sales History Report'
+     A                                      DSPATR(HI)
+     A                                  4  5'Sale ID'
+     A                                  4 20'Item No'
+     A                                  4 40'WH'
+     A                                  4 50'Qty'
+     A                                  4 60'Price'
+     A                                  4 75'Tax'
+     A                                  4 90'Total'
+     A                                  4 108'Sale Date'
+     A                                      DSPATR(HI)
+     A                                      SKIPA(1)
+
+     A          R DETAIL
+     A            SALEID        10P 0    1  5
+     A            ITEMNO        15A      1 20
+     A            WHCODE         5A      1 40
+     A            QTY            9P 0    1 50
+     A            PRICE          9P 2    1 60
+     A                                      EDTCDE(J)
+     A            TAXAMT         9P 2    1 75
+     A                                      EDTCDE(J)
+     A            TOTALAMT       9P 2    1 90
+     A                                      EDTCDE(J)
+     A            SALEDATE        L      1 108
+
+     A          R FOOTER
+     A                                      SKIPB(2)
+     A                                  1 40'*** End of Sales Report ***'

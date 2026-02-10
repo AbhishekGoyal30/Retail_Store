@@ -1,0 +1,7 @@
+     A          R PRICER
+     A            ITEMNO        15A
+     A            PRICE         9P 2       TEXT('Base Price')
+     A            TAXPCT        5P 2       TEXT('Tax Percentage')
+     A            CURR          3A         TEXT('Currency')
+
+     A          K ITEMNO

@@ -1,0 +1,7 @@
+     A          R WHSR
+     A            ITEMNO        15A
+     A            WHCODE         5A         TEXT('Warehouse Code')
+     A            QTYONHAND      9P 0       TEXT('Stock Quantity')
+
+     A          K ITEMNO
+     A          K WHCODE

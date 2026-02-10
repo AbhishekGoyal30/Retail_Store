@@ -1,0 +1,11 @@
+     A          R SALESR
+     A            SALEID        10P 0
+     A            ITEMNO        15A
+     A            WHCODE         5A
+     A            QTY            9P 0
+     A            PRICE          9P 2
+     A            TAXAMT         9P 2
+     A            TOTALAMT       9P 2
+     A            SALEDATE       L
+
+     A          K SALEID

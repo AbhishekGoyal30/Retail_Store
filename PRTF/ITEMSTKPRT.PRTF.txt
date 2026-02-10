@@ -1,0 +1,30 @@
+     A                                      DSPSIZ(66 132)
+     A                                      PAGESIZE(60)
+     A                                      PRINT
+
+     A          R HEADER
+     A                                      SKIPB(1)
+     A                                  2 30'Item Stock & Tax Report'
+     A                                      DSPATR(HI)
+
+     A                                  4  5'Item No'
+     A                                  4 25'Item Description'
+     A                                  4 65'Price'
+     A                                  4 80'Active'
+     A                                  4 90'Tax %'
+     A                                  4 105'Stock Qty'
+     A                                      DSPATR(HI)
+     A                                      SKIPA(1)
+
+     A          R DETAIL
+     A            ITEMNO        15A     1  5
+     A            ITEMDESC      30A     1 25
+     A            PRICE          9P 2   1 65
+     A                                      EDTCDE(J)
+     A            ACTIVE         1A     1 80
+     A            TAXPCT         5P 2   1 90
+     A            QTYONHAND      9P 0   1 105
+
+     A          R FOOTER
+     A                                      SKIPB(2)
+     A                                  1 45'*** End of Report ***'

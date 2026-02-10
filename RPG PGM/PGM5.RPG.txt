@@ -1,0 +1,104 @@
+**FREE
+ctl-opt dftactgrp(*no)
+        actgrp(*caller)
+        option(*srcstmt:*nodebugio);
+
+/* ================================================= */
+/* File Declarations                                 */
+/* ================================================= */
+
+dcl-f ITEMMASTER   usage(*input)  keyed;
+dcl-f ITEMBATCH  usage(*update) keyed;
+dcl-f DISCOUNTP  usage(*output);
+dcl-f EXPIREDLOG usage(*output);
+
+/* ================================================= */
+/* Prototypes                                        */
+/* ================================================= */
+
+dcl-pr CheckNearExpiry;
+end-pr;
+
+dcl-pr RemoveExpiredItems;
+end-pr;
+
+/* ================================================= */
+/* Variables                                         */
+/* ================================================= */
+
+dcl-s today        date inz(%date());
+dcl-s nearExpDays  int(5) inz(30);
+dcl-s discPrice    packed(9:2);
+
+/* ================================================= */
+/* Main Processing                                   */
+/* ================================================= */
+
+CheckNearExpiry();
+RemoveExpiredItems();
+
+*inlr = *on;
+
+/* ================================================= */
+/* Subprocedure: Near Expiry Processing               */
+/* ================================================= */
+
+dcl-proc CheckNearExpiry;
+
+   read ITEMBATCH;
+   dow not %eof(ITEMBATCH);
+
+      if EXPIRYDATE >= today and
+         EXPIRYDATE <= (today + %days(nearExpDays));
+
+         chain ITEMNO ITEMMASTER;
+         if %found(ITEMMASTER) and ACTIVE = 'Y';
+
+            discPrice = BASEPRICE * 0.70;
+
+            ITEMNO     = ITEMNO;
+            DISCPRICE  = discPrice;
+            VALIDTILL  = EXPIRYDATE;
+
+            write DISCR;
+
+            dsply ('NEAR EXPIRY DISCOUNT -> Item ' +
+                   ITEMNO + ' Batch ' + BATCHNO);
+         endif;
+      endif;
+
+      read ITEMBATCH;
+   enddo;
+
+end-proc;
+
+/* ================================================= */
+/* Subprocedure: Remove Expired Items                 */
+/* ================================================= */
+
+dcl-proc RemoveExpiredItems;
+
+   read ITEMBATCH;
+   dow not %eof(ITEMBATCH);
+
+      if EXPIRYDATE < today and QTYONHAND > 0;
+
+         ITEMNO      = ITEMNO;
+         BATCHNO     = BATCHNO;
+         EXPIRYDATE  = EXPIRYDATE;
+         QTYREMOVED  = QTYONHAND;
+         LOGDATE     = today;
+
+         write EXPR;
+
+         QTYONHAND = 0;
+         update BATCHR;
+
+         dsply ('EXPIRED REMOVED -> Item ' +
+                ITEMNO + ' Batch ' + BATCHNO);
+      endif;
+
+      read ITEMBATCH;
+   enddo;
+
+end-proc;

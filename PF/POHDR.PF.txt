@@ -1,0 +1,7 @@
+     A          R POHR
+     A            PONO           8P 0
+     A            VENDORID       6P 0
+     A            PODATE         L
+     A            POAMOUNT      11P 2
+
+     A          K PONO

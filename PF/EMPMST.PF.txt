@@ -1,0 +1,8 @@
+     A          R EMPR
+     A            EMPID          8P 0       TEXT('Employee ID')
+     A            EMPNAME       30A         TEXT('Employee Name')
+     A            BASICSAL      11P 2       TEXT('Basic Salary')
+     A            BONUS         11P 2       TEXT('Bonus Amount')
+     A            ACTIVE         1A         TEXT('Active Y/N')
+
+     A          K EMPID

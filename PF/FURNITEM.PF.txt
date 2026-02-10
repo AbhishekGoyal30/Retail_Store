@@ -1,0 +1,4 @@
+     A          R FURNR
+     A            ITEMNO        15A
+     A            ITEMDESC      30A
+     A            PRICE          9P 2

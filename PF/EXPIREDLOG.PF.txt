@@ -1,0 +1,6 @@
+     A          R EXPR
+     A            ITEMNO        15A
+     A            BATCHNO       10A
+     A            EXPIRYDATE     L
+     A            QTYREMOVED     9P 0
+     A            LOGDATE        L

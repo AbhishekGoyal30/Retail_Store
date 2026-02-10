@@ -1,0 +1,11 @@
+     A          R ITEMR
+     A            ITEMNO        15A         TEXT('Item Number')
+     A            ITEMDESC      30A         TEXT('Item Description')
+     A            GRPCODE        5A         TEXT('Group Category Code')
+     A            PRICE          9P 2       TEXT('Item Price')
+     A            UOM            3A         TEXT('Unit of Measure')
+     A            ACTIVE         1A         TEXT('Y/N Active')
+     A            COST           9P 2       TEXT('Item Cost')
+     A            REORDERLVL     9P 0       TEXT('Reorder Level')
+
+     A          K ITEMNO

@@ -1,0 +1,9 @@
+     A          R VENDR
+     A            VENDORID       6P 0       TEXT('Vendor ID')
+     A            VENDORNAME    30A         TEXT('Vendor Name')
+     A            CREDITLIMIT   11P 2       TEXT('Credit Limit')
+     A            OUTSTANDING   11P 2       TEXT('Outstanding Amount')
+     A            DISTANCEKM     7P 2       TEXT('Distance from Store')
+     A            ACTIVE         1A         TEXT('Y/N Active')
+
+     A          K VENDORID

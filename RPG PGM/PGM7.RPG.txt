@@ -1,0 +1,106 @@
+**FREE
+ctl-opt dftactgrp(*no)
+        actgrp(*caller)
+        option(*srcstmt:*nodebugio);
+
+/* ================================================= */
+/* File Declarations                                 */
+/* ================================================= */
+
+dcl-f VENDORMST usage(*input)  keyed;
+dcl-f ITEMMASTER  usage(*input)  keyed;
+dcl-f VENDITEM  usage(*input)  keyed;
+dcl-f POHDR     usage(*output);
+
+/* ================================================= */
+/* Program Interface                                 */
+/* ================================================= */
+
+dcl-pi *n;
+   pItemNo    char(15);
+   pOrderQty  packed(9:0);
+end-pi;
+
+/* ================================================= */
+/* Variables                                         */
+/* ================================================= */
+
+dcl-s bestVendor     packed(6:0);
+dcl-s bestDistance   packed(7:2) inz(999999);
+dcl-s creditAvail    packed(11:2);
+dcl-s orderAmount    packed(11:2);
+dcl-s poNo           packed(8:0) inz(%timestamp());
+
+/* ================================================= */
+/* Validate Item                                     */
+/* ================================================= */
+
+chain pItemNo ITEMMASTER;
+if not %found(ITEMMASTER);
+   dsply 'Invalid Item';
+   return;
+endif;
+
+/* ================================================= */
+/* Find Best Vendor                                  */
+/* ================================================= */
+
+setll *loval VENDITEM;
+read VENDITEM;
+dow not %eof(VENDITEM);
+
+   if ITEMNO <> pItemNo;
+      read VENDITEM;
+      iter;
+   endif;
+
+   chain VENDORID VENDORMST;
+   if not %found(VENDORMST) or ACTIVE <> 'Y';
+      read VENDITEM;
+      iter;
+   endif;
+
+   creditAvail = CREDITLIMIT - OUTSTANDING;
+   orderAmount = SUPPLYCOST * pOrderQty;
+
+   if creditAvail < orderAmount;
+      read VENDITEM;
+      iter;
+   endif;
+
+   if DISTANCEKM < bestDistance;
+      bestDistance = DISTANCEKM;
+      bestVendor   = VENDORID;
+   endif;
+
+   read VENDITEM;
+
+enddo;
+
+/* ================================================= */
+/* Create Purchase Order                              */
+/* ================================================= */
+
+if bestVendor <> 0;
+
+   PONO      = poNo;
+   VENDORID  = bestVendor;
+   PODATE    = %date();
+   POAMOUNT  = orderAmount;
+
+   write POHR;
+
+   dsply ('PO CREATED → Vendor ' + %char(bestVendor));
+   dsply ('Order Amount: ' + %char(orderAmount));
+
+else;
+
+   dsply 'No suitable vendor found';
+
+endif;
+
+/* ================================================= */
+/* End Program                                       */
+/* ================================================= */
+
+*inlr = *on;

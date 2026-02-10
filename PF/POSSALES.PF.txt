@@ -1,0 +1,7 @@
+     A          R POSR
+     A            SALEID        10P 0       TEXT('Sale ID')
+     A            EMPID          8P 0       TEXT('Employee ID')
+     A            SALEAMT       11P 2       TEXT('Sale Amount')
+     A            SALEDATE       L          TEXT('Sale Date')
+
+     A          K SALEID

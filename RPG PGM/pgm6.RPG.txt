@@ -1,0 +1,89 @@
+**FREE
+ctl-opt dftactgrp(*no)
+        actgrp(*caller)
+        option(*srcstmt:*nodebugio);
+
+/* ================================================= */
+/* File Declarations                                 */
+/* ================================================= */
+
+dcl-f EMPMST    usage(*update) keyed;
+dcl-f POSSALES usage(*input)  keyed;
+
+/* ================================================= */
+/* Prototype                                         */
+/* ================================================= */
+
+dcl-pr CalcTopEmployeeBonus;
+end-pr;
+
+/* ================================================= */
+/* Main Processing                                   */
+/* ================================================= */
+
+CalcTopEmployeeBonus();
+
+*inlr = *on;
+
+/* ================================================= */
+/* Subprocedure: Calculate Top Employee Bonus         */
+/* ================================================= */
+
+dcl-proc CalcTopEmployeeBonus;
+
+   dcl-s empSales   packed(13:2);
+   dcl-s maxSales   packed(13:2) inz(0);
+   dcl-s maxEmpId   packed(8:0);
+   dcl-s bonusAmt   packed(11:2);
+
+   /* Loop through employees */
+   read EMPMST;
+   dow not %eof(EMPMST);
+
+      if ACTIVE <> 'Y';
+         read EMPMST;
+         iter;
+      endif;
+
+      empSales = 0;
+
+      /* Sum POS sales for employee */
+      setll EMPID POSSALES;
+      read POSSALES;
+      dow not %eof(POSSALES) and POSSALES.EMPID = EMPID;
+
+         empSales += SALEAMT;
+         read POSSALES;
+
+      enddo;
+
+      /* Track max sales */
+      if empSales > maxSales;
+         maxSales = empSales;
+         maxEmpId = EMPID;
+      endif;
+
+      read EMPMST;
+   enddo;
+
+   /* Award bonus */
+   if maxSales > 0;
+
+      chain maxEmpId EMPMST;
+      if %found(EMPMST);
+
+         bonusAmt = maxSales * 0.05;
+
+         BONUS     += bonusAmt;
+         BASICSAL  += bonusAmt;
+
+         update EMPR;
+
+         dsply ('TOP EMPLOYEE: ' + %char(maxEmpId));
+         dsply ('TOTAL SALES : ' + %char(maxSales));
+         dsply ('BONUS AWARDED: ' + %char(bonusAmt));
+
+      endif;
+   endif;
+
+end-proc;

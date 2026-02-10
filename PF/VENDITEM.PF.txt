@@ -1,0 +1,8 @@
+     A          R VITEMR
+     A            VENDORID       6P 0
+     A            ITEMNO        15A
+     A            SUPPLYCOST     9P 2
+     A            LEADTIME       5P 0       TEXT('Delivery Days')
+
+     A          K VENDORID
+     A          K ITEMNO

@@ -1,0 +1,43 @@
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A                                      INDARA
+     A                                      CA03(03 'Exit')
+     A                                      CA05(05 'Update')
+
+     A          R SALEUPD
+     A                                      CF03
+     A                                      CF05
+
+     A                                  1 22'Sales History Maintenance'
+     A                                      DSPATR(HI)
+
+     A                                  3  5'Sale ID'
+     A            SALEID        10P 0B  3 25
+     A                                      DSPATR(PR)
+
+     A                                  5  5'Item Number'
+     A            ITEMNO        15A  B  5 25
+
+     A                                  7  5'Warehouse Code'
+     A            WHCODE         5A  B  7 25
+
+     A                                  9  5'Quantity'
+     A            QTY            9P 0B  9 25
+
+     A                                 11  5'Price'
+     A            PRICE          9P 2B 11 25
+     A                                      EDTCDE(J)
+
+     A                                 13  5'TAX Amount'
+     A            TAXAMT         9P 2B 13 25
+     A                                      EDTCDE(J)
+
+     A                                 15  5'Total Amount'
+     A            TOTALAMT       9P 2B 15 25
+     A                                      EDTCDE(J)
+
+     A                                 17  5'Sale Date'
+     A            SALEDATE        L  B 17 25
+
+     A                                 21  5'F5=Update   F3=Exit'
+     A                                      DSPATR(HI)

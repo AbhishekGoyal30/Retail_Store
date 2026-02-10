@@ -1,0 +1,6 @@
+     A          R DISCR
+     A            ITEMNO        15A
+     A            DISCPRICE      9P 2
+     A            VALIDTILL      L
+
+     A          K ITEMNO
